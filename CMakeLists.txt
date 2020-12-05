@@ -93,6 +93,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 option(BUILD_QT_SDL "Build Qt/SDL frontend" ON)
+option(BUILD_PURE_SDL "Build pure SDL frontend" OFF)
 
 if (WIN32)
 	option(BUILD_STATIC "Statically link dependencies" OFF)
@@ -102,4 +103,8 @@ add_subdirectory(src)
 
 if (BUILD_QT_SDL)
 	add_subdirectory(src/frontend/qt_sdl)
+endif()
+
+if (BUILD_PURE_SDL)
+	add_subdirectory(src/frontend/pure_sdl)
 endif()
