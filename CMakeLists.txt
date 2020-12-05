@@ -75,9 +75,18 @@ if (CMAKE_BUILD_TYPE STREQUAL Release)
 	add_link_options(-s)
 endif()
 
+if (WIN32)
+	option(BUILD_STATIC "Statically link dependencies" OFF)
+endif()
+
 if (ENABLE_LTO)
-	add_compile_options(-flto -fPIC)
-	add_link_options(-flto -fuse-linker-plugin -pie)
+	if (WIN32)
+		add_compile_options(-flto)
+		add_link_options(-flto)
+	else()
+		add_compile_options(-flto -fPIC)
+		add_link_options(-flto -fuse-linker-plugin -pie)
+	endif()
 endif()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -94,10 +103,6 @@ endif()
 
 option(BUILD_QT_SDL "Build Qt/SDL frontend" ON)
 option(BUILD_PURE_SDL "Build pure SDL frontend" OFF)
-
-if (WIN32)
-	option(BUILD_STATIC "Statically link dependencies" OFF)
-endif()
 
 add_subdirectory(src)
 
